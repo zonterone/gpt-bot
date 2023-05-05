@@ -30,18 +30,12 @@ const ask = async (text: string) => {
     messages: [
       {
         role: "system",
-        content:
-          "You are helpful assistant. First find relevant information, then answer the question based on the relevant information. Your answer should not contain more than 100 words",
-      },
-      { role: "user", content: "Who won the world series in 2020?" },
-      {
-        role: "assistant",
-        content: "The Los Angeles Dodgers won the World Series in 2020.",
+        content: process.env.GPT_PROMPT as string,
       },
       { role: "user", content: `${text}` },
     ],
-    temperature: 1,
-    max_tokens: 500,
+    temperature: Number(process.env.TEMPERATURE),
+    max_tokens: Number(process.env.MAX_TOKENS),
   });
   return resp;
 };
@@ -76,7 +70,7 @@ const getWaitingMessagesClosure = () => {
       "Наши серверы как бегемоты. Большие, медленные и любят воду. Подождите…",
       "Данные запускаются на поток. Поток падает. Мы начинаем с начала…",
     ];
-    const randomNumber = getRandomNumber(0, messages.length);
+    const randomNumber = getRandomNumber(0, messages.length - 1);
     if (prevIdx === randomNumber) {
       return getWaitingMessages();
     } else {
@@ -88,6 +82,7 @@ const getWaitingMessagesClosure = () => {
 };
 
 bot.hears(isToBotMessage, async (ctx) => {
+  console.info(ctx.message.from.first_name, ctx.message.text);
   try {
     const getWaitingMessages = getWaitingMessagesClosure();
     let tempMess = await ctx.reply(italic(getWaitingMessages()), {reply_to_message_id: ctx.message.message_id});
