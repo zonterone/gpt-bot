@@ -1,5 +1,6 @@
 import { Telegraf } from "telegraf";
 import { bold, italic } from "telegraf/format";
+
 import { Configuration, OpenAIApi } from "openai";
 require("dotenv").config();
 
@@ -89,7 +90,7 @@ const getWaitingMessagesClosure = () => {
 bot.hears(isToBotMessage, async (ctx) => {
   try {
     const getWaitingMessages = getWaitingMessagesClosure();
-    let tempMess = await ctx.reply(italic(getWaitingMessages()));
+    let tempMess = await ctx.reply(italic(getWaitingMessages()), {reply_to_message_id: ctx.message.message_id});
 
     const interval = setInterval(async () => {
       await ctx.telegram.editMessageText(
