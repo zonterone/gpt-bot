@@ -82,12 +82,13 @@ const getWaitingMessagesClosure = () => {
 };
 
 bot.hears(isToBotMessage, async (ctx) => {
+  let interval
   console.info(ctx.message.from.first_name, ctx.message.text);
   try {
     const getWaitingMessages = getWaitingMessagesClosure();
     let tempMess = await ctx.reply(italic(getWaitingMessages()), {reply_to_message_id: ctx.message.message_id});
 
-    const interval = setInterval(async () => {
+    interval = setInterval(async () => {
       await ctx.telegram.editMessageText(
         tempMess.chat.id,
         tempMess.message_id,
@@ -114,6 +115,7 @@ bot.hears(isToBotMessage, async (ctx) => {
       );
     }
   } catch (error) {
+    clearInterval(interval);
     console.error(error);
     ctx.reply(bold("Ooops, something went wrong"));
   }
