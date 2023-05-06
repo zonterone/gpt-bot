@@ -5,11 +5,13 @@
     "telegraf": "^4.12.2"
   },
   "devDependencies": {
+    "@tsconfig/recommended": "^1.0.2",
     "@types/node": "^20.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
   "scripts": {
-    "start": "ts-node src/bot.ts"
+    "build": "tsc",
+    "start": "rm -rf dist/* && yarn build && node dist/bot.js"
   }
 }
