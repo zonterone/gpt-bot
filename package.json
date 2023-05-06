@@ -11,6 +11,6 @@
   },
   "scripts": {
     "build": "rm -rf dist/* && tsc",
-    "start": "yarn build && node dist/bot.js"
+    "dev": "yarn build && node dist/bot.js"
   }
 }
