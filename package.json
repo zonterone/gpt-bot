@@ -10,7 +10,7 @@
     "typescript": "^5.0.4"
   },
   "scripts": {
-    "build": "tsc",
-    "start": "rm -rf dist/* && yarn build && node dist/bot.js"
+    "build": "rm -rf dist/* && tsc",
+    "start": "yarn build && node dist/bot.js"
   }
 }

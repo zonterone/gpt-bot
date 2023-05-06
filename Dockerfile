@@ -10,4 +10,6 @@ RUN yarn install
 
 COPY . .
 
-CMD ["yarn", "start"]
+RUN yarn build
+
+CMD ["node", "dist/bot.js"]
