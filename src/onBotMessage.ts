@@ -17,7 +17,6 @@ export const onBotMessage = async (
 ) => {
   let interval: NodeJS.Timer | undefined;
   let tempMess: Message.TextMessage;
-  console.info(ctx.message.from.first_name, ctx.message.text);
   try {
     const getWaitingMessages = getWaitingMessagesClosure();
     tempMess = await ctx.reply(italic(getWaitingMessages()), {
