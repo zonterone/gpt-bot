@@ -26,7 +26,7 @@ const openai = new OpenAIApi(configuration);
 
 export const ask = async (text: string) => {
   const resp = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
+    model: process.env.MODEL || "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
