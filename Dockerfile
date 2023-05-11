@@ -1,15 +1,14 @@
 FROM node:latest
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/buildDependencies
 WORKDIR /usr/src/app
 
-COPY package.json  ./
-COPY yarn.lock ./
+COPY . ./buildDependencies
 
-RUN yarn install
+RUN yarn install --cwd ./buildDependencies/
 
-COPY . .
+RUN yarn --cwd ./buildDependencies/ run build
 
-RUN yarn build
+RUN mv ./buildDependencies/dist/* ./ && rm -rf ./buildDependencies
 
-CMD ["node", "dist/bot.js"]
+CMD ["node", "bot.js"]

@@ -47,3 +47,5 @@ bot.hears(isToBotMessage, async (ctx) => {
 });
 
 bot.launch();
+
+console.info('Bot started')
