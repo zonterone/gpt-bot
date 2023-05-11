@@ -4,8 +4,7 @@
     "dotenv": "^16.0.3",
     "openai": "^3.2.1",
     "telegraf": "^4.12.2",
-    "webpack": "^5.82.1",
-    "webpack-cli": "^5.1.1"
+    "webpack": "^5.82.1"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
@@ -13,7 +12,8 @@
     "nodemon-webpack-plugin": "^4.8.1",
     "terser-webpack-plugin": "^5.3.8",
     "ts-loader": "^9.4.2",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "webpack-cli": "^5.1.1"
   },
   "scripts": {
     "start:dev": "NODE_ENV=development webpack --watch",

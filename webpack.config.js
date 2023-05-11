@@ -3,12 +3,13 @@ const NodemonPlugin = require("nodemon-webpack-plugin");
 const path = require("path");
 const { NODE_ENV = "production" } = process.env;
 module.exports = {
-  entry: "./src/bot.ts",
+  entry: { bot: "./src/bot.ts" },
   mode: NODE_ENV,
   target: "node",
   output: {
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
-    filename: "bot.js",
+    clean: true,
   },
   resolve: {
     extensions: [".ts", ".js"],
@@ -23,12 +24,24 @@ module.exports = {
   },
   plugins: [new NodemonPlugin()],
   optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
+    },
+    minimize: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          mangle: false,
-          keep_classnames: true,
-          keep_fnames: true,
+          keep_classnames: /AbortSignal/,
+          keep_fnames: /AbortSignal/,
+          ecma: 2020,
+          module: true,
+          toplevel: true,
         },
       }),
     ],
