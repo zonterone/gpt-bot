@@ -38,3 +38,5 @@ export const getWaitingMessagesClosure = () => {
   };
   return getWaitingMessages;
 };
+
+export const defaultPrompt = "You are helpful assistant. First find relevant information, then answer the question based on the relevant information. Your answer should not contain more than 400 words"

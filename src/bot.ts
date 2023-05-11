@@ -1,6 +1,6 @@
 import { Telegraf } from "telegraf";
 import { Configuration, OpenAIApi } from "openai";
-import { isToBotMessage } from "./helpers";
+import { defaultPrompt, isToBotMessage } from "./helpers";
 import { onBotMessage } from "./onBotMessage"
 import "dotenv/config"
 
@@ -30,12 +30,12 @@ export const ask = async (text: string) => {
     messages: [
       {
         role: "system",
-        content: process.env.GPT_PROMPT as string,
+        content: process.env.GPT_PROMPT as string || defaultPrompt,
       },
       { role: "user", content: `${text}` },
     ],
-    temperature: Number(process.env.TEMPERATURE),
-    max_tokens: Number(process.env.MAX_TOKENS),
+    temperature: Number(process.env.TEMPERATURE) || 1,
+    max_tokens: Number(process.env.MAX_TOKENS) || 1000,
   });
   return resp;
 };
