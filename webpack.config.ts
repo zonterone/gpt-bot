@@ -3,16 +3,18 @@ import * as webpack from 'webpack';
 import NodemonPlugin from "nodemon-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV = 'production' } = process.env;
+
+const isDev = NODE_ENV === 'development'
 
 const config: webpack.Configuration = {
-  mode: NODE_ENV === 'development' ? NODE_ENV : 'production',
+  mode: isDev ?  'development' : 'production',
   target: "node",
-  entry: { bot: "./src/bot.ts" },
+  entry: { main: "./src/main.ts" },
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
-    clean: true,
+    clean: isDev,
   },
   resolve: {
     extensions: [".ts", ".js"],

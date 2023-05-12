@@ -11,4 +11,4 @@ RUN yarn --cwd ./buildDependencies/ run build
 
 RUN mv ./buildDependencies/dist/* ./ && rm -rf ./buildDependencies
 
-CMD ["node", "bot.js"]
+CMD ["node", "main.js"]
