@@ -6,13 +6,6 @@ import "dotenv/config";
 
 const { MAX_MESSAGES_COUNT = 50 } = process.env;
 
-const MAX_MESSAGES_COUNT_NUMBER = Number(MAX_MESSAGES_COUNT);
-
-const ODD_MAX_MESSAGES_COUNT_NUMBER =
-  MAX_MESSAGES_COUNT_NUMBER % 2 === 0
-    ? MAX_MESSAGES_COUNT_NUMBER + 1
-    : MAX_MESSAGES_COUNT_NUMBER;
-
 const configuration = new Configuration({
   organization: process.env.OPENAI_API_ORGANIZATION,
   apiKey: process.env.OPENAI_API_KEY,
@@ -47,9 +40,7 @@ export const ask = async (text: string, chatId: number) => {
     content: `${botAnswer}`,
   });
 
-   console.log(ODD_MAX_MESSAGES_COUNT_NUMBER);
-
-  if (messages.length > ODD_MAX_MESSAGES_COUNT_NUMBER) {
+  if (messages.length >= Number(MAX_MESSAGES_COUNT)) {
     messages.splice(1, 2);
   }
 
