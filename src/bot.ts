@@ -24,6 +24,7 @@ const onBotMessage = async (
   let tempMess: Message.TextMessage;
   try {
     const getWaitingMessages = getWaitingMessagesClosure();
+
     tempMess = await ctx.reply(italic(getWaitingMessages()), {
       reply_to_message_id: ctx.message.message_id,
     });

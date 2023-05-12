@@ -37,6 +37,7 @@ docker run -d --name=telegram-gpt-bot \
 -e MAX_TOKENS=<max tokens> \
 -e TEMPERATURE=<temperature> \ 
 -e MODEl=<openAi model> \
+-e MAX_MESSAGES_COUNT=<max count messages in conversation> \
 --restart unless-stopped \
 zonter/telegram-gpt:latest
 ```
@@ -44,12 +45,13 @@ zonter/telegram-gpt:latest
 5. Start conversation with your bot. Also you can invite this bot to a group chats.
 ## ENV variables
 
-| Variable                  | Required     | Description                                                      |
-| :------------------------ | :----------- | :--------------------------------------------------------------- |
-| `BOT_TOKEN`               | **Required** | Your Telegram API bot token                                      |
-| `OPENAI_API_KEY`          | **Required** | Your openAi API key                                              |
-| `OPENAI_API_ORGANIZATION` | **Required** | Your openAi API organization ID                                  |
-| `GPT_PROMPT`              | Optional     | Your system prompt. Defaults prompt acts like helpful assistant. |
-| `MAX_TOKENS`              | Optional     | Max tokens for usage. Defaults set to `1000`                     |
-| `TEMPERATURE`             | Optional     | Model temperature. Number between 0-2. Defaults sets to `1`.     |
-| `MODEl`                   | Optional     | OpenAI GPT model. Defaults sets to `gpt-3.5-turbo`               |
+| Variable                  | Required     | Description                                                         |
+| :------------------------ | :----------- | :------------------------------------------------------------------ |
+| `BOT_TOKEN`               | **Required** | Your Telegram API bot token                                         |
+| `OPENAI_API_KEY`          | **Required** | Your openAi API key                                                 |
+| `OPENAI_API_ORGANIZATION` | **Required** | Your openAi API organization ID                                     |
+| `GPT_PROMPT`              | Optional     | Your system prompt. Defaults prompt acts like helpful assistant.    |
+| `MAX_TOKENS`              | Optional     | Max tokens for usage. Defaults set to `1000`                        |
+| `TEMPERATURE`             | Optional     | Model temperature. Number between 0-2. Defaults sets to `1`.        |
+| `MODEl`                   | Optional     | OpenAI GPT model. Defaults sets to `gpt-3.5-turbo`                  |
+| `MAX_MESSAGES_COUNT`      | Optional     | Number of max messages count in conversation. Defaults sets to `50` |
