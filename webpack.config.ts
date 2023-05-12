@@ -1,11 +1,14 @@
-const TerserPlugin = require("terser-webpack-plugin");
-const NodemonPlugin = require("nodemon-webpack-plugin");
-const path = require("path");
-const { NODE_ENV = "production" } = process.env;
-module.exports = {
-  entry: { bot: "./src/bot.ts" },
-  mode: NODE_ENV,
+import * as path from 'path';
+import * as webpack from 'webpack';
+import NodemonPlugin from "nodemon-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+
+const { NODE_ENV } = process.env;
+
+const config: webpack.Configuration = {
+  mode: NODE_ENV === 'development' ? NODE_ENV : 'production',
   target: "node",
+  entry: { bot: "./src/bot.ts" },
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
@@ -47,3 +50,5 @@ module.exports = {
     ],
   },
 };
+
+export default config;
