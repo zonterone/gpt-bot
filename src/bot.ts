@@ -29,8 +29,8 @@ const onBotMessage = async (
       reply_to_message_id: ctx.message.message_id,
     });
 
-    interval = setInterval(async () => {
-      await ctx.telegram.editMessageText(
+    interval = setInterval(() => {
+      ctx.telegram.editMessageText(
         tempMess.chat.id,
         tempMess.message_id,
         undefined,
@@ -38,17 +38,16 @@ const onBotMessage = async (
       );
     }, 3000);
 
-    const userMessage = ctx.chat.type === "private" ? ctx.message.text.trim() : ctx.message.text.slice(1).trim();
+    const userMessage =
+      ctx.chat.type === "private"
+        ? ctx.message.text.trim()
+        : ctx.message.text.slice(1).trim();
 
     const resp = await ask(userMessage, ctx.message.chat.id);
     clearInterval(interval);
     if (resp) {
-      await ctx.telegram.editMessageText(
-        tempMess.chat.id,
-        tempMess.message_id,
-        undefined,
-        resp
-      );
+      await ctx.telegram.deleteMessage(tempMess.chat.id, tempMess.message_id);
+      await ctx.reply(resp, { reply_to_message_id: ctx.message.message_id });
     } else {
       await ctx.telegram.editMessageText(
         tempMess.chat.id,
