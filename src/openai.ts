@@ -13,41 +13,40 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
+const systemMessage: ChatCompletionRequestMessage = {
+  role: "system",
+  content: (process.env.GPT_PROMPT as string) || defaultPrompt,
+};
+
 export const ask = async (text: string, chatId: number) => {
   try {
-    const messages = await db.getObjectDefault<ChatCompletionRequestMessage[]>(
-      `/chats/${chatId}`,
-      [
-        {
-          role: "system",
-          content: (process.env.GPT_PROMPT as string) || defaultPrompt,
-        },
-      ]
-    );
+    const prevMessages = await db.getObjectDefault<
+      ChatCompletionRequestMessage[]
+    >(`/chats/${chatId}`, []);
 
-    messages.push({ role: "user", content: `${text}` });
+    const userMessage: ChatCompletionRequestMessage = {
+      role: "user",
+      content: `${text}`,
+    };
+
+    const messages = [...prevMessages, userMessage];
+
+    if (messages.length >= Number(MAX_MESSAGES_COUNT)) {
+      messages.splice(0, 2);
+    }
 
     const resp = await openai.createChatCompletion({
       model: process.env.MODEL || "gpt-3.5-turbo",
-      messages,
+      messages: [systemMessage, ...messages],
       temperature: Number(process.env.TEMPERATURE) || 1,
       max_tokens: Number(process.env.MAX_TOKENS) || 1000,
     });
 
-    const botAnswer = resp.data.choices[0].message?.content;
+    const botAnswer = resp.data.choices[0].message;
 
-    messages.push({
-      role: "assistant",
-      content: `${botAnswer}`,
-    });
+    await db.push(`/chats/${chatId}`, [userMessage, botAnswer], false);
 
-    if (messages.length >= Number(MAX_MESSAGES_COUNT)) {
-      messages.splice(1, 2);
-    }
-
-    await db.push(`/chats/${chatId}`, messages);
-
-    return botAnswer;
+    return botAnswer?.content || "";
   } catch (error) {
     console.error(error);
   }

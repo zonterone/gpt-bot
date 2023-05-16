@@ -84,6 +84,6 @@ bot.command("reset", async (ctx) => {
 
 bot.on(message("text"), async (ctx) => {
   if (ctx.chat.type === "private" || isToBotMessage(ctx.message.text)) {
-    queueMicrotask(() => onBotMessage(ctx));
+    onBotMessage(ctx)
   }
 });
