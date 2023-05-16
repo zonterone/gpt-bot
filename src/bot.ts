@@ -56,12 +56,16 @@ const onBotMessage = async (
         bold("Ooops, something went wrong")
       );
     }
-  } catch (error) {
+  } catch (error: any) {
+    console.error(error);
     if (interval) {
       clearInterval(interval);
     }
-    await ctx.reply(bold("Ooops, something went wrong"));
-    console.error(error);
+    if (error.message) {
+      await ctx.reply(bold(error.message));
+    } else {
+      await ctx.reply(bold("Ooops, something went wrong"));
+    }
   }
 };
 
@@ -84,6 +88,6 @@ bot.command("reset", async (ctx) => {
 
 bot.on(message("text"), async (ctx) => {
   if (ctx.chat.type === "private" || isToBotMessage(ctx.message.text)) {
-    onBotMessage(ctx)
+    onBotMessage(ctx);
   }
 });

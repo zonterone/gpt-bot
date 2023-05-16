@@ -51,7 +51,7 @@ zonter/telegram-gpt:latest
 | `OPENAI_API_KEY`          | **Required** | Your openAi API key                                                 |
 | `OPENAI_API_ORGANIZATION` | **Required** | Your openAi API organization ID                                     |
 | `GPT_PROMPT`              | Optional     | Your system prompt. Defaults prompt acts like helpful assistant.    |
-| `MAX_TOKENS`              | Optional     | Max tokens for usage. Defaults set to `1000`                        |
+| `MAX_TOKENS`              | Optional     | Max tokens for answer. Defaults set to `max model tokens`           |
 | `TEMPERATURE`             | Optional     | Model temperature. Number between 0-2. Defaults sets to `1`.        |
 | `MODEl`                   | Optional     | OpenAI GPT model. Defaults sets to `gpt-3.5-turbo`                  |
 | `MAX_MESSAGES_COUNT`      | Optional     | Number of max messages count in conversation. Defaults sets to `50` |
