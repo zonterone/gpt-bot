@@ -11,4 +11,8 @@ RUN yarn --cwd ./buildDependencies/ run build
 
 RUN mv ./buildDependencies/dist/* ./ && rm -rf ./buildDependencies
 
+RUN mkdir -p ./db
+
+VOLUME ./db
+
 CMD ["node", "main.js"]

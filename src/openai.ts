@@ -26,6 +26,8 @@ export const ask = async (text: string, chatId: number) => {
 
   messages.push({ role: "user", content: `${text}` });
 
+
+
   const resp = await openai.createChatCompletion({
     model: process.env.MODEL || "gpt-3.5-turbo",
     messages,
