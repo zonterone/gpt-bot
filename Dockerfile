@@ -1,11 +1,16 @@
 FROM node:latest
 
 RUN mkdir -p /usr/src/app/buildDependencies
-WORKDIR /usr/src/app
 
-COPY . ./buildDependencies
+WORKDIR /usr/src/app/
+
+COPY package.json yarn.lock ./buildDependencies/
+
+RUN yarn global add pm2
 
 RUN yarn install --cwd ./buildDependencies/
+
+COPY . ./buildDependencies/
 
 RUN yarn --cwd ./buildDependencies/ run build
 
@@ -15,4 +20,4 @@ RUN mkdir -p ./db
 
 VOLUME ./db
 
-CMD ["node", "main.js"]
+ENTRYPOINT ["pm2-runtime", "main.js"]
