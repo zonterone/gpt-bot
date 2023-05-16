@@ -1,25 +1,23 @@
 FROM node:latest
 
-ARG PATH=/usr/src/app
+RUN mkdir -p /usr/src/app/buildDependencies
 
-RUN mkdir -p ${PATH}/buildDependencies
+WORKDIR /usr/src/app/
 
-WORKDIR ${PATH}
-
-COPY package.json yarn.lock ${PATH}/buildDependencies/
+COPY package.json yarn.lock ./buildDependencies/
 
 RUN yarn global add pm2
 
-RUN yarn install --cwd ${PATH}/buildDependencies/
+RUN yarn install --cwd ./buildDependencies/
 
-COPY . ${PATH}/buildDependencies/
+COPY . ./buildDependencies/
 
-RUN yarn --cwd ${PATH}/buildDependencies/ run build
+RUN yarn --cwd ./buildDependencies/ run build
 
-RUN mv ${PATH}/buildDependencies/dist/* ${PATH}/ && rm -rf ${PATH}/buildDependencies
+RUN mv ./buildDependencies/dist/* ./ && rm -rf ./buildDependencies
 
-RUN mkdir -p ${PATH}/db
+RUN mkdir -p ./db
 
-VOLUME ${PATH}/db
+VOLUME /usr/src/app/db
 
 ENTRYPOINT ["pm2-runtime", "main.js"]
