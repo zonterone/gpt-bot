@@ -6,8 +6,6 @@ WORKDIR /usr/src/app/
 
 COPY package.json yarn.lock ./buildDependencies/
 
-RUN yarn global add pm2
-
 RUN yarn install --cwd ./buildDependencies/
 
 COPY . ./buildDependencies/
@@ -20,4 +18,4 @@ RUN mkdir -p ./db
 
 VOLUME /usr/src/app/db
 
-ENTRYPOINT ["pm2-runtime", "main.js"]
+ENTRYPOINT ["node", "main.js"]
