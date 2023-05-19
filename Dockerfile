@@ -16,4 +16,6 @@ RUN mv ./buildDependencies/dist/* ./ && rm -rf ./buildDependencies
 
 RUN mkdir -p ./db
 
+VOLUME /usr/src/app/db
+
 ENTRYPOINT ["node", "main.js"]
