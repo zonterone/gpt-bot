@@ -86,8 +86,16 @@ bot.command("reset", async (ctx) => {
   ctx.reply(`Conversation history cleared`);
 });
 
+const userIdsPendingRequestStack = <number[]>[];
+
 bot.on(message("text"), async (ctx) => {
-  if (ctx.chat.type === "private" || isToBotMessage(ctx.message.text)) {
-    onBotMessage(ctx);
+  if (userIdsPendingRequestStack.includes(ctx.chat.id)) {
+    ctx.reply("You need to wait for the previous reply.", { reply_to_message_id: ctx.message.message_id });
+  } else if (ctx.chat.type === "private" || isToBotMessage(ctx.message.text)) {
+    userIdsPendingRequestStack.push(ctx.chat.id);
+    onBotMessage(ctx).then(() => {
+      const idx = userIdsPendingRequestStack.indexOf(ctx.chat.id);
+      userIdsPendingRequestStack.slice(idx, 1);
+    });
   }
 });
