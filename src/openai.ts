@@ -38,7 +38,7 @@ export const ask = async (text: string, chatId: number) => {
 
     const resp = await openai.createChatCompletion({
       model: process.env.MODEL || "gpt-3.5-turbo",
-      messages: [systemMessage, ...messages],
+      messages: [...messages, systemMessage],
       temperature: Number(process.env.TEMPERATURE) || 1,
       max_tokens: Number(process.env.MAX_TOKENS) || undefined,
     });
