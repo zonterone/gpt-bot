@@ -1,13 +1,15 @@
-import { Context, NarrowedContext, Telegraf } from "telegraf";
-import { db } from "./db";
-import { bold, italic } from "telegraf/format";
-import { Message, Update } from "telegraf/typings/core/types/typegram";
-import { message } from "telegraf/filters";
+import { Telegraf } from "telegraf"
+import { message } from "telegraf/filters"
+import { bold, italic } from "telegraf/format"
+import { Context, NarrowedContext } from "telegraf/typings/context"
+import { Message, Update } from "telegraf/typings/core/types/typegram"
 
-import { getWaitingMessagesClosure, isToBotMessage } from "./helpers";
-import { ask } from "./openai";
+import { db } from "./db"
 
-import "dotenv/config";
+import { getWaitingMessagesClosure, isToBotMessage } from "./helpers"
+import { ask } from "./openai"
+
+import "dotenv/config"
 
 export const bot = new Telegraf(process.env.BOT_TOKEN as string);
 

@@ -1,4 +1,5 @@
-import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
+import { Configuration} from "openai/dist/configuration";
+import { ChatCompletionRequestMessage, OpenAIApi } from "openai/dist/api"
 import { db } from "./db";
 import { defaultPrompt } from "./helpers";
 

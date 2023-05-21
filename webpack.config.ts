@@ -12,7 +12,7 @@ const config: webpack.Configuration = {
   target: "node",
   entry: { main: "./src/main.ts" },
   output: {
-    filename: "[name].js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     clean: isDev,
   },
