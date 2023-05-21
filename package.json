@@ -1,11 +1,16 @@
 {
   "name": "gpt-telegram-bot",
+  "version": "0.0.1",
+  "author": "https://github.com/zonterone",
+  "repository": {
+    "url": "https://github.com/zonterone/gpt-bot.git"
+  },
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.0.3",
     "node-json-db": "^2.2.0",
     "openai": "^3.2.1",
-    "telegraf": "^4.12.2",
-    "webpack": "^5.82.1"
+    "telegraf": "^4.12.2"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
@@ -16,12 +21,13 @@
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
+    "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1"
   },
   "scripts": {
-    "start:dev": "NODE_ENV=development webpack --watch",
-    "build:dev": "NODE_ENV=development webpack",
     "build": "webpack",
-    "start": "webpack && node -r dotenv/config ./dist/main.js"
+    "build:dev": "NODE_ENV=development webpack",
+    "start": "webpack && node -r dotenv/config ./dist/main.*.js",
+    "start:dev": "NODE_ENV=development webpack --watch"
   }
 }

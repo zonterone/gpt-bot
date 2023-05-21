@@ -1,20 +1,22 @@
-import * as path from 'path';
-import * as webpack from 'webpack';
+import * as path from "path";
+import * as webpack from "webpack";
 import NodemonPlugin from "nodemon-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 
-const { NODE_ENV = 'production' } = process.env;
+const { NODE_ENV = "production" } = process.env;
 
-const isDev = NODE_ENV === 'development'
+const isDev = NODE_ENV === "development";
 
 const config: webpack.Configuration = {
-  mode: isDev ?  'development' : 'production',
+  mode: isDev ? "development" : "production",
   target: "node",
   entry: { main: "./src/main.ts" },
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
-    clean: isDev,
+    clean: {
+      keep: !isDev ? "db/" : undefined,
+    },
   },
   resolve: {
     extensions: [".ts", ".js"],
