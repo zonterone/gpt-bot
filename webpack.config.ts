@@ -12,11 +12,8 @@ const config: webpack.Configuration = {
   target: "node",
   entry: { main: "./src/main.ts" },
   output: {
-    filename: "[name].[contenthash].js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
-    clean: {
-      keep: !isDev ? "db/" : undefined,
-    },
   },
   resolve: {
     extensions: [".ts", ".js"],
@@ -31,16 +28,6 @@ const config: webpack.Configuration = {
   },
   plugins: [new NodemonPlugin()],
   optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all",
-        },
-      },
-    },
-    minimize: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {

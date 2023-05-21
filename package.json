@@ -27,7 +27,7 @@
   "scripts": {
     "build": "webpack",
     "build:dev": "NODE_ENV=development webpack",
-    "start": "webpack && node -r dotenv/config ./dist/main.*.js",
+    "start": "webpack && node -r dotenv/config ./dist/main.js",
     "start:dev": "NODE_ENV=development webpack --watch"
   }
 }
