@@ -18,4 +18,4 @@ RUN mkdir -p ./db
 
 VOLUME /usr/src/app/db
 
-ENTRYPOINT ["node", "main.js"]
+ENTRYPOINT ["node", "main.*.js"]
