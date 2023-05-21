@@ -86,16 +86,24 @@ bot.command("reset", async (ctx) => {
   ctx.reply(`Conversation history cleared`);
 });
 
-const userIdsPendingRequestStack = <number[]>[];
+const chatIdsPendingRequestStack = <number[]>[];
 
 bot.on(message("text"), async (ctx) => {
-  if (userIdsPendingRequestStack.includes(ctx.chat.id)) {
-    ctx.reply(bold("You need to wait for the completion of the answer to the previous question."), { reply_to_message_id: ctx.message.message_id });
-  } else if (ctx.chat.type === "private" || isToBotMessage(ctx.message.text)) {
-    userIdsPendingRequestStack.push(ctx.chat.id);
-    onBotMessage(ctx).then(() => {
-      const idx = userIdsPendingRequestStack.indexOf(ctx.chat.id);
-      userIdsPendingRequestStack.splice(idx, 1);
-    });
+  if (ctx.chat.type === "private" || isToBotMessage(ctx.message.text)) {
+    if (chatIdsPendingRequestStack.includes(ctx.chat.id)) {
+      ctx.reply(
+        bold(
+          "You need to wait for the completion of generating the answer to the previous question."
+        ),
+        { reply_to_message_id: ctx.message.message_id }
+      );
+    } else {
+      chatIdsPendingRequestStack.push(ctx.chat.id);
+      onBotMessage(ctx).then(() => {
+        const chatIdIdx = chatIdsPendingRequestStack.indexOf(ctx.chat.id);
+        chatIdsPendingRequestStack.splice(chatIdIdx, 1);
+      });
+    }
   }
+  return
 });
