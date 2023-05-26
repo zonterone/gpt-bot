@@ -43,6 +43,7 @@ zonter/telegram-gpt:latest
 ```
 
 5. Start conversation with your bot. Also you can invite this bot to a group chats.
+
 ## ENV variables
 
 | Variable                  | Required     | Description                                                         |
