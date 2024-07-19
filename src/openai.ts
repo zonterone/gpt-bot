@@ -1,21 +1,16 @@
-import { Configuration } from 'openai/dist/configuration'
-import { ChatCompletionRequestMessage, OpenAIApi } from 'openai/dist/api'
+import OpenAI from 'openai'
 import { db } from './db'
-import { defaultPrompt } from './helpers'
+import { defaultModel, defaultPrompt } from './helpers'
 
 import 'dotenv/config'
-import { error } from 'console'
 
 const { MAX_MESSAGES_COUNT = 50 } = process.env
 
-const configuration = new Configuration({
-  organization: process.env.OPENAI_API_ORGANIZATION,
+const openAi = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-const openai = new OpenAIApi(configuration)
-
-const systemMessage: ChatCompletionRequestMessage = {
+const systemMessage: OpenAI.Chat.Completions.ChatCompletionMessageParam = {
   role: 'system',
   content: (process.env.GPT_PROMPT as string) || defaultPrompt,
 }
@@ -23,10 +18,10 @@ const systemMessage: ChatCompletionRequestMessage = {
 export const ask = async (text: string, chatId: number) => {
   try {
     const prevMessages = await db.getObjectDefault<
-      ChatCompletionRequestMessage[]
+      OpenAI.Chat.Completions.ChatCompletionMessageParam[]
     >(`/chats/${chatId}`, [])
 
-    const userMessage: ChatCompletionRequestMessage = {
+    const userMessage: OpenAI.Chat.Completions.ChatCompletionMessageParam = {
       role: 'user',
       content: `${text}`,
     }
@@ -37,14 +32,14 @@ export const ask = async (text: string, chatId: number) => {
       messages.splice(0, 2)
     }
 
-    const resp = await openai.createChatCompletion({
-      model: process.env.MODEL || 'gpt-3.5-turbo',
+    const resp = await openAi.chat.completions.create({
+      model: process.env.MODEL || defaultModel,
       messages: [...messages, systemMessage],
-      temperature: Number(process.env.TEMPERATURE) || 1,
+      temperature: Number(process.env.TEMPERATURE) || 0.5,
       max_tokens: Number(process.env.MAX_TOKENS) || undefined,
     })
 
-    const botAnswer = resp.data.choices[0].message
+    const botAnswer = resp.choices[0].message
 
     await db.push(`/chats/${chatId}`, [userMessage, botAnswer], false)
 
